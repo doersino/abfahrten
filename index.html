@@ -15,7 +15,7 @@
     }
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        margin-bottom: 2rem;
+        padding-bottom: 2rem;
     }
     /*section.collapsed::after {
         content: "▼";
@@ -46,6 +46,7 @@
     }
     table td:nth-child(1) {
         width: 10%;
+        font-style: italic;
     }
     table td:nth-child(2) {
         width: 65%;
@@ -54,6 +55,7 @@
         width: 25%;
         text-align: right;
         font-variant-numeric: tabular-nums;
+        font-weight: bold;
     }
     input {
         width: 100%;
@@ -162,7 +164,7 @@
     <section id="searched">
     </section>
     <footer>
-        <input name="search" id="search" onkeyup="search()" placeholder="Haltestelle...">
+        <input name="search" id="search" onkeyup="search()" placeholder="Haltestelle..."></input>
         <section id="results">
 
         </section>
