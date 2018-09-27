@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Abfahrten</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        font-size: 20px;
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        margin-bottom: 2rem;
+    }
+    /*section.collapsed::after {
+        content: "▼";
+        position: absolute;
+        right: 1rem;
+        margin-top: -2.5rem;
+        color: gray;
+    }*/
+    header {
+        background-color: #ddd;
+        padding: 0.5rem;
+        border-bottom: 1px solid #ccc;
+    }
+    h1 {
+        font-weight: bold;
+        font-size: 1.3em;
+    }
+    h2 {
+        color: #888;
+        font-size: 1em;
+    }
+    table {
+        width: 100%;
+        padding: 0.5rem;
+    }
+    table tr:not(:last-child) td {
+        padding-bottom: 0.2rem;
+    }
+    table td:nth-child(1) {
+        width: 10%;
+    }
+    table td:nth-child(2) {
+        width: 65%;
+    }
+    table td:nth-child(3) {
+        width: 25%;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+    input {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        border: 0;
+        border-radius: 0;
+        background-color: #e8e8e8;
+        font: inherit;
+        height: 2rem;
+        padding: 0.5rem;
+        outline: none;
+    }
+    ul, #searched {
+        box-shadow: 0 -0.5rem 2rem rgba(0,0,0,0.2);
+        position: fixed;
+        bottom: 2rem;
+        max-height: 70vh;
+        overflow: scroll;
+        background-color: white;
+        width: 100%;
+    }
+    li {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    li:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+    }
+    </style>
+    <script>
+        function get(id, el) {
+            var api = new XMLHttpRequest();
+
+            api.onreadystatechange = function() {  // TODO maybe move ajax boilerplate into separate function
+                if (api.readyState == 4 && api.status == 200) {
+                    var departures = api.responseText;
+                    var elem = document.getElementById(el);
+                    var table = elem.getElementsByTagName("table")[0];
+                    var div = document.createElement('div');
+                    div.innerHTML = departures.trim();
+                    table.parentNode.replaceChild(div.firstChild, table);
+                }
+            }
+
+            api.open("POST", "apifahrten.php", true);
+            api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            api.send("format=html&id=" + id);
+        }
+        function search() {
+            var search = document.getElementById("search").value;
+
+            var api = new XMLHttpRequest();
+
+            api.onreadystatechange = function() {
+                if (api.readyState == 4 && api.status == 200) {
+                    var matches = api.responseText;
+                    document.getElementById("results").innerHTML = matches;
+
+                    lis = document.getElementsByTagName('li');
+
+                    for (el of lis)  // TODO make this more elegant
+                        el.onclick = function () {
+                            // hide search results
+                            results.innerHTML = "";
+
+                            var searched = document.getElementById("searched");
+                            searched.innerHTML = "";  // clean up from potential earlier searches
+                            var header = document.createElement('header');
+                            header.innerHTML = (this.innerHTML);
+                            searched.appendChild(header);
+                            var table = document.createElement('table');  // TODO get rid of this in both functions
+                            searched.appendChild(table);
+                            get(this.id, "searched");
+                        };
+                }
+            }
+
+            api.open("POST", "apifahrten.php", true);
+            api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            api.send("format=html&search=" + encodeURIComponent(search));
+        }
+    </script>
+</head>
+<body>
+    <section id="sand">
+        <header>
+            <h1>Sand Drosselweg</h1>
+        </header>
+        <table></table>
+    </section>
+    <!--<section id="sternplatz_hauptbahnhof">
+        <header>
+            <h1>Sternplatz</h1>
+            <h2>→ Hauptbahnhof</h2>
+        </header>
+        <table>
+            <tr><td>4</td><td>Hbf-WHO</td> <td>22 m</td></tr>
+            <tr><td>4</td><td>Hbf-WHO</td> <td>52 m</td></tr>
+            <tr><td>4</td><td>Hbf-WHO</td> <td>82 m</td></tr>
+            <tr><td>4</td><td>Hbf-WHO</td> <td>116 m</td></tr>
+            <tr><td>4</td><td>Hbf-WHO</td> <td>146 m</td></tr>
+            <tr><td>4</td><td>Hauptbahnhof</td> <td>182 m</td></tr>
+        </table>
+    </section>-->
+    <section id="searched">
+    </section>
+    <footer>
+        <input name="search" id="search" onkeyup="search()" placeholder="Haltestelle...">
+        <section id="results">
+
+        </section>
+    </footer>
+    <script>
+        var departures = get(25207, "sand");
+    </script>
+</body>
+</html>
