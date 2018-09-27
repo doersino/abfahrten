@@ -19,13 +19,6 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         padding-bottom: 2rem;
     }
-    /*section.collapsed::after {
-        content: "▼";
-        position: absolute;
-        right: 1rem;
-        margin-top: -2.5rem;
-        color: gray;
-    }*/
     header {
         background-color: #ddd;
         padding: 0.5rem;
@@ -119,7 +112,7 @@
             });
         }
         function search() {
-            var searchString = document.getElementById("search").value;
+            var searchString = document.getElementById("searchy").value;
 
             apifahrten("format=html&search=" + encodeURIComponent(searchString), function(response) {
                 var matches = response;
@@ -200,13 +193,10 @@
         </header>
     </section>
 
-    <section id="searched">
-    </section>
-    <footer>
-        <input name="search" id="search" onkeyup="search()" placeholder="Haltestelle..."></input>
-        <section id="results">
-
-        </section>
+    <section id="searched"></section>
+    <footer>             <!-- boku saatchi! -->
+        <input name="search" id="searchy" onkeyup="search()" placeholder="Haltestelle..."></input>
+        <section id="results"></section>
     </footer>
 </body>
 </html>
