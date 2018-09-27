@@ -87,56 +87,66 @@
     }
     </style>
     <script>
-        function get(id, el) {
-            var api = new XMLHttpRequest();
-
-            api.onreadystatechange = function() {  // TODO maybe move ajax boilerplate into separate function
-                if (api.readyState == 4 && api.status == 200) {
-                    var departures = api.responseText;
-                    var elem = document.getElementById(el);
-                    var table = elem.getElementsByTagName("table")[0];
-                    var div = document.createElement('div');
-                    div.innerHTML = departures.trim();
-                    table.parentNode.replaceChild(div.firstChild, table);
-                }
-            }
-
-            api.open("POST", "apifahrten.php", true);
-            api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            api.send("format=html&id=" + id);
-        }
-        function search() {
-            var search = document.getElementById("search").value;
-
+        function apifahrten(request, onCompletion) {  // request parameters and a function dealing with response text
             var api = new XMLHttpRequest();
 
             api.onreadystatechange = function() {
                 if (api.readyState == 4 && api.status == 200) {
-                    var matches = api.responseText;
-                    document.getElementById("results").innerHTML = matches;
-
-                    lis = document.getElementsByTagName('li');
-
-                    for (el of lis)  // TODO make this more elegant
-                        el.onclick = function () {
-                            // hide search results
-                            results.innerHTML = "";
-
-                            var searched = document.getElementById("searched");
-                            searched.innerHTML = "";  // clean up from potential earlier searches
-                            var header = document.createElement('header');
-                            header.innerHTML = (this.innerHTML);
-                            searched.appendChild(header);
-                            var table = document.createElement('table');  // TODO get rid of this in both functions
-                            searched.appendChild(table);
-                            get(this.id, "searched");
-                        };
+                    onCompletion(api.responseText);
                 }
             }
 
             api.open("POST", "apifahrten.php", true);
             api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            api.send("format=html&search=" + encodeURIComponent(search));
+            api.send(request);
+        }
+
+        function get(id, targetSectionId) {
+            apifahrten("format=html&id=" + id, function(response) {
+                var departures = response;
+                var target = document.getElementById(targetSectionId);
+
+                // replace the old table with the new one, which is just a
+                // string, necessitating the creation of a temporary helper div
+                var table = target.getElementsByTagName("table")[0];
+                var div = document.createElement("div");
+                div.innerHTML = departures.trim();
+                table.parentNode.replaceChild(div.firstChild, table);
+            });
+        }
+        function search() {
+            var searchString = document.getElementById("search").value;
+
+            apifahrten("format=html&search=" + encodeURIComponent(searchString), function(response) {
+                var matches = response;
+
+                // display search results
+                var results = document.getElementById("results");
+                results.innerHTML = matches;
+
+                // if one of them is clicked, load its upcoming departures
+                lis = document.getElementsByTagName("li");
+                for (li of lis) li.onclick = function() {
+
+                        // hide search results
+                        results.innerHTML = "";
+
+                        // grab target section
+                        var searched = document.getElementById("searched");
+
+                        // clean up from potential earlier searches
+                        searched.innerHTML = "";
+
+                        // construct header and an empty table, later to be
+                        // replaced by get()
+                        var header = document.createElement("header");
+                        header.innerHTML = (this.innerHTML);
+                        searched.appendChild(header);
+                        var table = document.createElement("table");
+                        searched.appendChild(table);
+                        get(this.id, "searched");
+                };
+            });
         }
     </script>
 </head>
