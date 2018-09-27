@@ -23,7 +23,6 @@ function getId($name, $platform = "") {
     }
 }
 
-// case-insensitive substring levenshtein? return id, result, highlighted result
 function findMatches($search) {
     $stops = getStops();
 
@@ -52,7 +51,7 @@ function getDepartures($id) {
                 $colLabel = translateColumnLabel($col->getAttribute("class"));
                 $colValue = trim($col->textContent);
                 if ($colLabel == "time") {
-                    $colValue = ($colValue == "&nbsp;") ? "10 Min" : $colValue;  // replace bus icon  // TODO debug
+                    $colValue = ($colValue == "&nbsp;") ? "10 Min" : $colValue;  // replace bus icon  // TODO no worky, debug
                     $colValue = condenseTime($colValue);
                 }
                 $resultRow[$colLabel] = $colValue;
@@ -113,7 +112,7 @@ if (!empty($_POST["id"])) {
     $id = $_POST["id"];
     $departures = getDepartures($id);
     echo $format("departures", $departures);
-} else if (!empty($_POST["name"])) {  // TODO test
+} else if (!empty($_POST["name"])) {  // TODO untested, so test this
     $name = $_POST["name"];
     if (!empty($_POST["platform"])) {
         $id = getId($name, $_POST["platform"]);
