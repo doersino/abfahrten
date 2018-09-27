@@ -39,6 +39,8 @@
     }
     table {
         width: 100%;
+    }
+    table:not(:empty) {
         padding: 0.5rem;
     }
     table tr:not(:last-child) td {
@@ -110,7 +112,7 @@
                 // string, necessitating the creation of a temporary helper div
                 var table = target.getElementsByTagName("table")[0];
                 var div = document.createElement("div");
-                div.innerHTML = departures.trim();
+                div.innerHTML = departures;
                 table.parentNode.replaceChild(div.firstChild, table);
             });
         }
@@ -148,29 +150,51 @@
                 };
             });
         }
+        function toggle(header) {
+            var section = header.parentNode;
+            var tables = section.getElementsByTagName("table");
+            if (tables.length == 0) {
+                var table = document.createElement("table");
+                section.appendChild(table);
+                get(section.id, section.id);
+                section.scrollIntoView();
+            } else {
+                tables[0].parentNode.removeChild(tables[0]);
+            }
+        }
     </script>
 </head>
 <body>
-    <section id="sand">
-        <header>
+    <section id="100005">
+        <header onclick="toggle(this)">
+            <h1>Hauptbahnhof</h1>
+            <h2>→ Steig E</h2>
+        </header>
+    </section>
+    <section id="25207">
+        <header onclick="toggle(this)">
             <h1>Sand Drosselweg</h1>
         </header>
         <table></table>
     </section>
-    <!--<section id="sternplatz_hauptbahnhof">
-        <header>
+    <section id="50504">
+        <header onclick="toggle(this)">
+            <h1>Pauline-Krone-Heim</h1>
+            <h2>→ Hauptbahnhof</h2>
+        </header>
+    </section>
+    <section id="50804">
+        <header onclick="toggle(this)">
+            <h1>Stadtgraben</h1>
+        </header>
+    </section>
+    <section id="81004">
+        <header onclick="toggle(this)">
             <h1>Sternplatz</h1>
             <h2>→ Hauptbahnhof</h2>
         </header>
-        <table>
-            <tr><td>4</td><td>Hbf-WHO</td> <td>22 m</td></tr>
-            <tr><td>4</td><td>Hbf-WHO</td> <td>52 m</td></tr>
-            <tr><td>4</td><td>Hbf-WHO</td> <td>82 m</td></tr>
-            <tr><td>4</td><td>Hbf-WHO</td> <td>116 m</td></tr>
-            <tr><td>4</td><td>Hbf-WHO</td> <td>146 m</td></tr>
-            <tr><td>4</td><td>Hauptbahnhof</td> <td>182 m</td></tr>
-        </table>
-    </section>-->
+    </section>
+
     <section id="searched">
     </section>
     <footer>
@@ -180,7 +204,7 @@
         </section>
     </footer>
     <script>
-        var departures = get(25207, "sand");
+        var departures = get(25207, "25207");
     </script>
 </body>
 </html>
