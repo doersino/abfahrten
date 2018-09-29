@@ -40,6 +40,12 @@ function getDepartures($id) {
 
     $dom = new DomDocument();
     $dom->loadHTML($html);
+    // TODO check for
+    /*
+    <div id="vdfimain">
+     <h2 class="vdfi-error">Diese Haltestelle wird momentan nicht bedient.</h2>
+      </div>
+    */
     $table = $dom->getElementsByTagName("table")->item(0)->childNodes;
     $result = [];
     foreach ($table as $row) {

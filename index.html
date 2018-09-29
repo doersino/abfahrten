@@ -23,6 +23,7 @@
         background-color: #ddd;
         padding: 0.5rem;
         border-bottom: 1px solid #ccc;
+        cursor: pointer;
     }
     h1 {
         font-weight: bold;
@@ -97,7 +98,6 @@
             api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
             api.send(request);
         }
-
         function get(id, targetSectionId) {
             apifahrten("format=html&id=" + id, function(response) {
                 var departures = response;
@@ -137,10 +137,12 @@
                         // construct header and an empty table, later to be
                         // replaced by get()
                         var header = document.createElement("header");
+                        header.setAttribute("onclick", "this.parentNode.innerHTML = ''");
                         header.innerHTML = (this.innerHTML);
                         searched.appendChild(header);
                         var table = document.createElement("table");
                         searched.appendChild(table);
+
                         get(this.id, "searched");
                 };
             });
@@ -194,8 +196,9 @@
     </section>
 
     <section id="searched"></section>
-    <footer>             <!-- boku saatchi! -->
-        <input name="search" id="searchy" onkeyup="search()" placeholder="Haltestelle..."></input>
+    <footer>
+        <!-- boku saatchi! -->
+        <input id="searchy" onkeyup="search()" placeholder="Haltestelle..."></input>
         <section id="results"></section>
     </footer>
 </body>
