@@ -38,14 +38,12 @@ function findMatches($search) {
 function getDepartures($id) {
     $html = file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id);
 
+    if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.")) {
+        return [["line" => "", "direction" => "Diese Haltestelle wird momentan nicht bedient.", "time" => ""]];
+    }
+
     $dom = new DomDocument();
     $dom->loadHTML($html);
-    // TODO check for
-    /*
-    <div id="vdfimain">
-     <h2 class="vdfi-error">Diese Haltestelle wird momentan nicht bedient.</h2>
-      </div>
-    */
     $table = $dom->getElementsByTagName("table")->item(0)->childNodes;
     $result = [];
     foreach ($table as $row) {
