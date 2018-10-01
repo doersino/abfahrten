@@ -89,9 +89,9 @@ function encodeAsTable($kind, $data) {
         $html .= "<ul>";
         foreach ($matches as $match) {
             $html .= "<li id=\"" . $match["id"] . "\">";
-            $html .= "<h1 class='stop'>" . $match["stop"] . "</td>";
+            $html .= "<h1 class='stop'>" . $match["stop"] . "</h1>";
             if (!empty($match["platform"])) {
-                $html .= "<h2 class='platform'>→ " . $match["platform"] . "</td>";
+                $html .= "<h2 class='platform'>→ " . $match["platform"] . "</h2>";
             }
             $html .= "</li>";
         }
