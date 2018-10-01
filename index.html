@@ -56,6 +56,19 @@
         text-align: right;
         font-variant-numeric: tabular-nums;
         font-weight: bold;
+        color: #888;
+    }
+    table tr:nth-child(1) td:nth-child(3) {
+        color: #000;
+    }
+    table tr:nth-child(2) td:nth-child(3) {
+        color: #222;
+    }
+    table tr:nth-child(3) td:nth-child(3) {
+        color: #444;
+    }
+    table tr:nth-child(4) td:nth-child(3) {
+        color: #666;
     }
     input {
         width: 100%;
@@ -129,8 +142,9 @@
                 div.innerHTML = departures;
                 table.parentNode.replaceChild(div.firstChild, table);
 
-                // add some color (taken from official line plan) and direction
-                // markers (uphill or downhill)
+                // add some color (taken from official line plan), direction
+                // markers (uphill or downhill) and highlight imminent
+                // departures
                 var colors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];
                 var rows = target.getElementsByTagName("table")[0].getElementsByTagName("tr");
                 for (row of rows) {
@@ -142,6 +156,14 @@
                         line.innerHTML = line.innerHTML + "<sup>↓</sup>";
                     } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
                         line.innerHTML = line.innerHTML + "<sup>↑</sup>";
+                    }
+
+                    time = row.getElementsByClassName("time")[0];
+                    if (time.innerHTML == " ") {
+                        time.innerHTML = "■";
+                    }
+                    if (["■", "1", "2"].includes(time.innerHTML)) {
+                        time.style.color = "#e60000";
                     }
                 }
             });

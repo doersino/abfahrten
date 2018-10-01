@@ -56,7 +56,7 @@ function getDepartures($id) {
                 $colLabel = translateColumnLabel($col->getAttribute("class"));
                 $colValue = trim($col->textContent);
                 if ($colLabel == "time") {
-                    $colValue = ($colValue == "&nbsp;") ? "10 Min" : $colValue;  // replace bus icon  // TODO no worky, debug
+                    $colValue = ($colValue == " ") ? "0 Min" : $colValue;  // replace bus icon
                     $colValue = condenseTime($colValue);
                 }
                 $resultRow[$colLabel] = $colValue;
