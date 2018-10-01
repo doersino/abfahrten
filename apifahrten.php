@@ -92,7 +92,7 @@ function encodeAsTable($kind, $data) {
             $html .= "<li id=\"" . $match["id"] . "\">";
             $html .= "<h1 class='stop'>" . $match["stop"] . "</h1>";
             if (!empty($match["platform"])) {
-                $html .= "<h2 class='platform'>→ " . $match["platform"] . "</h2>";
+                $html .= " <h2 class='platform'>→ " . $match["platform"] . "</h2>";
             }
             $html .= "</li>";
         }
