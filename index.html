@@ -28,10 +28,12 @@
     h1 {
         font-weight: bold;
         font-size: 1.3em;
+        display: inline-block;
     }
     h2 {
         color: #888;
         font-size: 1em;
+        display: inline-block;
     }
     table {
         width: 100%;
@@ -47,10 +49,10 @@
         font-style: italic;
     }
     table td:nth-child(2) {
-        width: 63%;
+        width: 70%;
     }
     table td:nth-child(3) {
-        width: 25%;
+        width: 18%;
         text-align: right;
         font-variant-numeric: tabular-nums;
         font-weight: bold;
@@ -127,7 +129,8 @@
                 div.innerHTML = departures;
                 table.parentNode.replaceChild(div.firstChild, table);
 
-                // add some color and direction markers (uphill or downhill)
+                // add some color (taken from official line plan) and direction
+                // markers (uphill or downhill)
                 var colors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];
                 var rows = target.getElementsByTagName("table")[0].getElementsByTagName("tr");
                 for (row of rows) {

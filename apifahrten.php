@@ -1,6 +1,7 @@
 <?php
 
 function getStops() {
+    // stops.json is taken from the source code of https://www.swtue.de/abfahrt.html
     return json_decode(file_get_contents("stops.json"), true);
 }
 
