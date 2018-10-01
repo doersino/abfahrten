@@ -84,8 +84,25 @@
     li:not(:last-child) {
         border-bottom: 1px solid #ddd;
     }
+    sup {
+        vertical-align: top;
+        font-size: 0.7rem;
+        position: relative;
+        top: -0.2rem;
+        left: 0.1rem;
+    }
     </style>
     <script>
+        String.prototype.hash = function() {  // via https://stackoverflow.com/a/7616484
+            var hash = 0, i, chr;
+            if (this.length === 0) return hash;
+            for (i = 0; i < this.length; i++) {
+                chr   = this.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0;
+            }
+            return hash;
+        };
         function apifahrten(request, onCompletion) {  // request parameters and a function dealing with response text
             var api = new XMLHttpRequest();
 
@@ -110,6 +127,21 @@
                 var div = document.createElement("div");
                 div.innerHTML = departures;
                 table.parentNode.replaceChild(div.firstChild, table);
+
+                // add some color and direction markers (uphill or downhill)
+                var colors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];
+                var rows = target.getElementsByTagName("table")[0].getElementsByTagName("tr");
+                for (row of rows) {
+                    line = row.getElementsByClassName("line")[0];
+                    direction = row.getElementsByClassName("direction")[0].innerHTML;
+
+                    line.style.color = "#" + colors[parseInt(line.innerHTML) || 0];
+                    if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
+                        line.innerHTML = line.innerHTML + "<sup>↓</sup>";
+                    } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
+                        line.innerHTML = line.innerHTML + "<sup>↑</sup>";
+                    }
+                }
             });
         }
         function search() {
