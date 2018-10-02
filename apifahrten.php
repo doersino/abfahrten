@@ -41,6 +41,12 @@ function getDepartures($id) {
 
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.")) {
         return [["line" => "", "direction" => "Diese Haltestelle wird momentan nicht bedient.", "time" => ""]];
+
+    if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
+        return ["error" => "Diese Haltestelle wird momentan nicht bedient."];
+    }
+    if (strpos($html, "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.") !== false) {
+        return ["error" => "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden."];
     }
 
     $dom = new DomDocument();
@@ -75,15 +81,19 @@ function encodeAsTable($kind, $data) {
     if ($kind == "departures") {
         $departures = $data;
 
-        $html .= "<table>";
-        foreach ($departures as $row) {
-            $html .= "<tr>";
-            foreach ($row as $colLabel => $col) {
-                $html .= "<td class='$colLabel'>$col</td>";
+        if (isset($departures["error"])) {
+            $html .= "<table><tr><td colspan=\"3\" class=\"error\">" . $departures["error"] . "</td></tr></table>";
+        } else {
+            $html .= "<table>";
+            foreach ($departures as $row) {
+                $html .= "<tr>";
+                foreach ($row as $colLabel => $col) {
+                    $html .= "<td class='$colLabel'>$col</td>";
+                }
+                $html .= "</tr>";
             }
-            $html .= "</tr>";
+            $html .= "</table>";
         }
-        $html .= "</table>";
     } else if ($kind == "search") {
         $matches = $data;
 
