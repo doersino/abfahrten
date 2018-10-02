@@ -44,31 +44,18 @@
     table tr:not(:last-child) td {
         padding-bottom: 0.2rem;
     }
-    table td:nth-child(1) {
+    table td.line {
         width: 12%;
         font-style: italic;
     }
-    table td:nth-child(2) {
+    table td.direction {
         width: 70%;
     }
-    table td:nth-child(3) {
+    table td.time {
         width: 18%;
         text-align: right;
         font-variant-numeric: tabular-nums;
         font-weight: bold;
-        color: #888;
-    }
-    table tr:nth-child(1) td:nth-child(3) {
-        color: #000;
-    }
-    table tr:nth-child(2) td:nth-child(3) {
-        color: #222;
-    }
-    table tr:nth-child(3) td:nth-child(3) {
-        color: #444;
-    }
-    table tr:nth-child(4) td:nth-child(3) {
-        color: #666;
     }
     input {
         width: 100%;
@@ -117,6 +104,34 @@
             }
             return hash;
         };
+        function prettify(table) {
+            var lineColors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];  // taken from official line plan
+            var timeColors = ["000", "222", "444", "666", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888"];
+            var timeColorIndex = 0;
+
+            var rows = table.getElementsByTagName("tr");
+            for (row of rows) {
+                var line = row.getElementsByClassName("line")[0];
+                var direction = row.getElementsByClassName("direction")[0].innerHTML;
+
+                line.style.color = "#" + lineColors[parseInt(line.innerHTML) || 0];
+                if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
+                    line.innerHTML = line.innerHTML + "<sup>↓</sup>";
+                } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
+                    line.innerHTML = line.innerHTML + "<sup>↑</sup>";
+                }
+
+                var time = row.getElementsByClassName("time")[0];
+                if (time.innerHTML == "0") {
+                    time.innerHTML = "■";
+                }
+                if (["■", "1", "2"].includes(time.innerHTML)) {
+                    time.style.color = "#e60000";
+                } else {
+                    time.style.color = "#" + timeColors[timeColorIndex++];
+                }
+            }
+        }
         function apifahrten(request, onCompletion) {  // request parameters and a function dealing with response text
             var api = new XMLHttpRequest();
 
@@ -142,30 +157,10 @@
                 div.innerHTML = departures;
                 table.parentNode.replaceChild(div.firstChild, table);
 
-                // add some color (taken from official line plan), direction
-                // markers (uphill or downhill) and highlight imminent
-                // departures
-                var colors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];
-                var rows = target.getElementsByTagName("table")[0].getElementsByTagName("tr");
-                for (row of rows) {
-                    line = row.getElementsByClassName("line")[0];
-                    direction = row.getElementsByClassName("direction")[0].innerHTML;
-
-                    line.style.color = "#" + colors[parseInt(line.innerHTML) || 0];
-                    if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
-                        line.innerHTML = line.innerHTML + "<sup>↓</sup>";
-                    } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
-                        line.innerHTML = line.innerHTML + "<sup>↑</sup>";
-                    }
-
-                    time = row.getElementsByClassName("time")[0];
-                    if (time.innerHTML == "0") {
-                        time.innerHTML = "■";
-                    }
-                    if (["■", "1", "2"].includes(time.innerHTML)) {
-                        time.style.color = "#e60000";
-                    }
-                }
+                // add some color, direction markers (uphill or downhill) and
+                // highlight imminent departures
+                table = target.getElementsByTagName("table")[0];
+                prettify(table);
             });
         }
         function search() {
