@@ -1,0 +1,23 @@
+[
+  {"short": "//WHO", "full": "Waldhäuser Ost"},
+  {"short": "//Hbf", "full": "Hauptbahnhof"},
+  {"short": "Ulmenw.", "full": "Ulmenweg"},
+  {"short": "Haußerstr.", "full": "Haußerstraße"},
+  {"short": "Schönbl.", "full": "Schönblick"},
+  {"short": "Sternw.", "full": "Sternwarte"},
+  {"short": "Sudetenstr.", "full": "Sudetenstraße"},
+  {"short": "Schloßberg", "full": "Schlossberg"},
+  {"short": "Schloßb.", "full": "Schlossberg"},
+  {"short": "Mühlbachä.", "full": "Mühlbachäcker"},
+  {"short": "Gartenst.", "full": "Gartenstraße"},
+  {"short": "Klinik.", "full": "Kliniken"},
+  {"short": "Wennf. G.", "full": "Wennfelder Garten"},
+  {"short": "Wennf. Garten", "full": "Wennfelder Garten"},
+  {"short": "Schwärzl.Str.", "full": "Schwärzlocher Straße"},
+  {"short": "Haagt.", "full": "Haagtor"},
+  {"short": "Franz. Viertel", "full": "Französisches Viertel"},
+  {"short": "Lustnau Nord -Egeria", "full": "Lustnau Nord-Egeria"},
+  {"short": "Mühlenv.", "full": "Mühlenviertel"},
+  {"short": "Hagell.", "full": "Hagelloch"},
+  {"short": "Westst.", "full": "Weststadt"}
+]

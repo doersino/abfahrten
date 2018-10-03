@@ -3,6 +3,12 @@
 function getStops() {
     // stops.json is taken from the source code of https://www.swtue.de/abfahrt.html
     return json_decode(file_get_contents("stops.json"), true);
+
+function expandAbbreviations($html) {
+    $abbreviations = json_decode(file_get_contents("abbreviations.json"), true);
+    $search = array_map(function($arr) {return $arr["short"];}, $abbreviations);
+    $replace = array_map(function($arr) {return $arr["full"];}, $abbreviations);
+    return str_replace($search, $replace, $html);
 }
 
 function translateColumnLabel($colLabel) {
@@ -38,9 +44,7 @@ function findMatches($search) {
 
 function getDepartures($id) {
     $html = file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id);
-
-    if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.")) {
-        return [["line" => "", "direction" => "Diese Haltestelle wird momentan nicht bedient.", "time" => ""]];
+    $html = expandAbbreviations($html);
 
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
         return ["error" => "Diese Haltestelle wird momentan nicht bedient."];
