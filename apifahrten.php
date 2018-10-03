@@ -4,6 +4,9 @@ function getStops() {
     // stops.json is taken from the source code of https://www.swtue.de/abfahrt.html
     return json_decode(file_get_contents("stops.json"), true);
 
+    // TODO expand this list: merge all platforms of same stop into one (additional entry), provide that to the user as well
+}
+
 function expandAbbreviations($html) {
     $abbreviations = json_decode(file_get_contents("abbreviations.json"), true);
     $search = array_map(function($arr) {return $arr["short"];}, $abbreviations);
