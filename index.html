@@ -57,6 +57,9 @@
         font-variant-numeric: tabular-nums;
         font-weight: bold;
     }
+    table td.error {
+        color: gray;
+    }
     input {
         width: 100%;
         position: fixed;
@@ -160,7 +163,9 @@
                 // add some color, direction markers (uphill or downhill) and
                 // highlight imminent departures
                 table = target.getElementsByTagName("table")[0];
-                prettify(table);
+                if (table.getElementsByTagName("tr")[0].getElementsByClassName("error").length == 0) {
+                    prettify(table);
+                }
             });
         }
         function search() {
