@@ -16,8 +16,10 @@
   {"short": "Schwärzl.Str.", "full": "Schwärzlocher Straße"},
   {"short": "Haagt.", "full": "Haagtor"},
   {"short": "Franz. Viertel", "full": "Französisches Viertel"},
+  {"short": "Franz. V.", "full": "Französisches Viertel"},
   {"short": "Lustnau Nord -Egeria", "full": "Lustnau Nord-Egeria"},
   {"short": "Mühlenv.", "full": "Mühlenviertel"},
   {"short": "Hagell.", "full": "Hagelloch"},
-  {"short": "Westst.", "full": "Weststadt"}
+  {"short": "Westst.", "full": "Weststadt"},
+  {"short": "Unt. Wert", "full": "Unterer Wert"}
 ]
