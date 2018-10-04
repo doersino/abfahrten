@@ -97,16 +97,6 @@
     }
     </style>
     <script>
-        String.prototype.hash = function() {  // via https://stackoverflow.com/a/7616484
-            var hash = 0, i, chr;
-            if (this.length === 0) return hash;
-            for (i = 0; i < this.length; i++) {
-                chr   = this.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0;
-            }
-            return hash;
-        };
         function prettify(table) {
             var lineColors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];  // taken from official line plan
             var timeColors = ["000", "222", "444", "666", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888"];
