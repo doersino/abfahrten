@@ -21,5 +21,8 @@
   {"short": "Mühlenv.", "full": "Mühlenviertel"},
   {"short": "Hagell.", "full": "Hagelloch"},
   {"short": "Westst.", "full": "Weststadt"},
-  {"short": "Unt. Wert", "full": "Unterer Wert"}
+  {"short": "Unt. Wert", "full": "Unterer Wert"},
+  {"short": "Steinlachw.", "full": "Steinlachwasen"},
+  {"short": "Rappenbg.", "full": "Rappenberg"},
+  {"short": "V.d.Kreuzberg", "full": "Vor dem Kreuzberg"}
 ]
