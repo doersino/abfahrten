@@ -47,9 +47,13 @@ function findMatches($search) {
 }
 
 function getDepartures($id) {
-    $html = file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id);
-    $html = expandAbbreviations($html);
+    $html = @file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id);
 
+    // error handling
+    if (!$html) {
+        $error = error_get_last();
+        return ["error" => "Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\")."];
+    }
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
         return ["error" => "Diese Haltestelle wird momentan nicht bedient."];
     }
@@ -57,6 +61,9 @@ function getDepartures($id) {
         return ["error" => "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden."];
     }
 
+    $html = expandAbbreviations($html);
+
+    // parse html
     $dom = new DomDocument();
     $dom->loadHTML($html);
     $table = $dom->getElementsByTagName("table")->item(0)->childNodes;
@@ -115,6 +122,8 @@ function encodeAsTable($kind, $data) {
             $html .= "</li>";
         }
         $html .= "</ul>";
+    } else if ($kind == "status") {
+        $html .= "<p>" . $data["status"] . "</p>";
     }
 
     return $html;
@@ -131,11 +140,11 @@ if (!empty($_POST["format"]) && $_POST["format"] == "html") {
     $format = encodeAsJSON;
 }
 
-if (!empty($_POST["id"])) {
+if (!empty($_POST["id"])) {  // departures for given stop id
     $id = $_POST["id"];
     $departures = getDepartures($id);
     echo $format("departures", $departures);
-} else if (!empty($_POST["name"])) {  // TODO untested, so test this
+} else if (!empty($_POST["name"])) {  // departures for given stop name
     $name = $_POST["name"];
     if (!empty($_POST["platform"])) {
         $id = getId($name, $_POST["platform"]);
@@ -144,8 +153,10 @@ if (!empty($_POST["id"])) {
     }
     $departures = getDepartures($id);
     echo $format("departures", $departures);
-} else if (!empty($_POST["search"])) {
+} else if (!empty($_POST["search"])) {  // stops matching given search string
     $search = $_POST["search"];
     $matches = findMatches($search);
     echo $format("search", $matches);
+} else {  // anything else is invalid
+    echo $format("status", ["status" => "Invalid request."]);
 }
