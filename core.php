@@ -93,7 +93,14 @@ function findMatches($search) {
 }
 
 function getDepartures($id) {
-    $html = @file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id);
+
+    // spoof user agent to evade bot detection (probably won't matter, but can't
+    // hurt to be safe)
+    $options = array("http" => array("user_agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15"));
+    $context = stream_context_create($options);
+
+    // get source abfahrt.html for relevant halt
+    $html = @file_get_contents("https://www.swtue.de/abfahrt.html?halt=" . $id, false, $context);
 
     // error handling
     if (!$html) {
