@@ -97,31 +97,44 @@
     }
     </style>
     <script>
-        function prettify(table) {
+        function prettify(targetSectionId) {
             var lineColors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];  // taken from official line plan
             var timeColors = ["000", "222", "444", "666", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888"];
             var timeColorIndex = 0;
 
-            var rows = table.getElementsByTagName("tr");
-            for (row of rows) {
-                var line = row.getElementsByClassName("line")[0];
-                var direction = row.getElementsByClassName("direction")[0].innerHTML;
+            // extract table and check for errors, in which case no
+            // prettification is required
+            var target = document.getElementById(targetSectionId);
+            table = target.getElementsByTagName("table")[0];
+            if (table.getElementsByTagName("tr")[0].getElementsByClassName("error").length == 0) {
 
-                line.style.color = "#" + lineColors[parseInt(line.innerHTML) || 0];
-                if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
-                    line.innerHTML = line.innerHTML + "<sup>↓</sup>";
-                } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
-                    line.innerHTML = line.innerHTML + "<sup>↑</sup>";
-                }
+                // prettify!
+                var rows = table.getElementsByTagName("tr");
+                for (row of rows) {
+                    var line = row.getElementsByClassName("line")[0];
+                    var direction = row.getElementsByClassName("direction")[0].innerHTML;
 
-                var time = row.getElementsByClassName("time")[0];
-                if (time.innerHTML == "0") {
-                    time.innerHTML = "■";
-                }
-                if (["■", "1", "2"].includes(time.innerHTML)) {
-                    time.style.color = "#e60000";
-                } else {
-                    time.style.color = "#" + timeColors[timeColorIndex++];
+                    // set line color
+                    line.style.color = "#" + lineColors[parseInt(line.innerHTML) || 0];
+
+                    // draw inbound/outbound (rather: downhill/uphill)
+                    // indicators
+                    if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
+                        line.innerHTML = line.innerHTML + "<sup>↓</sup>";
+                    } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
+                        line.innerHTML = line.innerHTML + "<sup>↑</sup>";
+                    }
+
+                    // highlight imminent departures
+                    var time = row.getElementsByClassName("time")[0];
+                    if (time.innerHTML == "0") {
+                        time.innerHTML = "■";
+                    }
+                    if (["■", "1", "2"].includes(time.innerHTML)) {
+                        time.style.color = "#e60000";
+                    } else {
+                        time.style.color = "#" + timeColors[timeColorIndex++];
+                    }
                 }
             }
         }
@@ -152,10 +165,7 @@
 
                 // add some color, direction markers (uphill or downhill) and
                 // highlight imminent departures
-                table = target.getElementsByTagName("table")[0];
-                if (table.getElementsByTagName("tr")[0].getElementsByClassName("error").length == 0) {
-                    prettify(table);
-                }
+                prettify(targetSectionId);
             });
         }
         function search() {
@@ -209,7 +219,11 @@
     </script>
 </head>
 <body>
-    <section id="100005">
+    <?php
+        include "apifahrten.php";
+        echo renderDefaultsAsHTML();
+    ?>
+    <!--<section id="100005">
         <header onclick="toggle(this)">
             <h1>Hauptbahnhof</h1>
             <h2>→ Steig E</h2>
@@ -240,7 +254,7 @@
             <h1>Sternplatz</h1>
             <h2>→ Hauptbahnhof</h2>
         </header>
-    </section>
+    </section>-->
 
     <section id="searched"></section>
     <footer>

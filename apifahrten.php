@@ -1,5 +1,40 @@
 <?php
 
+function renderDefaultsAsHTML() {
+    $defaults = json_decode(file_get_contents("defaults.json"), true);
+
+    $html = "";
+
+    foreach ($defaults as $default) {
+        $id = $default["id"];
+        $expand = $default["expand"];
+
+        $html .= "<section id='$id'>";
+        $html .= "<header onclick='toggle(this)'>";
+
+        $nameAndPlatform = getNameAndPlatform($id);
+        $name = $nameAndPlatform["name"];
+        $platform = $nameAndPlatform["platform"];
+
+        $html .= "<h1>$name</h1>";
+        if (!empty($platform)) {
+            $html .= " <h2>→ $platform</h2>";
+        }
+
+        $html .= "</header>";
+
+        if ($expand) {
+            $departures = getDepartures($id);
+            $html .= encodeAsHTML("departures", $departures);
+            $html .= "<script>prettify('$id')</script>";
+        }
+
+        $html .= "</section>";
+    }
+
+    return $html;
+}
+
 function getStops() {
     // stops.json is taken from the source code of https://www.swtue.de/abfahrt.html
     return json_decode(file_get_contents("stops.json"), true);
@@ -24,12 +59,39 @@ function condenseTime($time) {
     return ltrim(preg_replace("/(([0-9]) h )?([0-9]+) Min/", "$2:$3", $time), ":");
 }
 
+// function getDetails($id, $name = false, $platform = false) {
+//     $stops = getStops();
+
+//     foreach ($stops as $stop) {
+//         if ($id !== false && $stop["id"] == $id) {
+//             return $stop;
+//         } else if ($name !== false && $platform !== false && $stop["stop"] == $name && $stop["platform"] == $platform) {
+//             return $stop;
+//         } else if ($name !== false && $stop["stop"] == $name) {
+//             return $stop;
+//         }
+//     }
+// }
+
 function getId($name, $platform = "") {
     $stops = getStops();
 
     foreach ($stops as $stop) {
         if ($stop["stop"] == $name && $stop["platform"] == $platform) {
             return $stop["id"];
+        }
+    }
+}
+
+function getNameAndPlatform($id) {
+    $stops = getStops();
+
+    foreach ($stops as $stop) {
+        if ($stop["id"] == $id) {
+            //if (!empty($stop["platform"])) {
+                return ["name" => $stop["stop"], "platform" => $stop["platform"]];
+            //}
+            //return ["name" => $stop["stop"]];
         }
     }
 }
@@ -147,7 +209,7 @@ function handleRequest($request) {
         $id = $request["id"];
         $departures = getDepartures($id);
         return $format("departures", $departures);
-    } else if (!empty($request["name"])) {  // departures for given stop name
+    } else if (!empty($request["name"])) {  // departures for given stop name  // TODO untested
         $name = $request["name"];
         if (!empty($request["platform"])) {
             $id = getId($name, $request["platform"]);
