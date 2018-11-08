@@ -134,7 +134,7 @@
                     }
 
                     // replace "-" with "▶" in some places
-                    if (["Hbf-", "Wanne-", "WHO-", "Sand-", "Schönblick-", "Sternwarte-", "Haußerstraße-", "Kliniken-", "Lustnau Nord-", "Weststadt-", "Haagtor-", "Schwärzlocher Straße-"].some(d => direction.innerHTML.startsWith(d))) {
+                    if (["Hbf-", "Wanne-", "WHO-", "Sand-", "Schönblick-", "Sternwarte-", "Haußerstraße-", "Kliniken-", "Lustnau Nord-", "Weststadt-", "Haagtor-", "Schwärzlocher Straße-", "Hirschau-"].some(d => direction.innerHTML.startsWith(d))) {
                         direction.innerHTML = direction.innerHTML.replace(/-/, "<i class='and'>▶</i>");
                     }
 
