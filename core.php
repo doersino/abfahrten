@@ -36,8 +36,17 @@ function renderDefaultsAsHTML() {
 }
 
 function getStops() {
-    // stops.json is taken from the source code of https://www.swtue.de/abfahrt.html
-    return json_decode(file_get_contents("stops.json"), true);
+    $stops = json_decode(file_get_contents("stops.json"), true);
+
+    // remove non-English "t" from "plattform"
+    foreach ($stops as $i => $stop) {
+        $stop["platform"] = $stop["plattform"];
+        unset($stop["plattform"]);
+
+        $stops[$i] = $stop;
+    }
+
+    return $stops;
 
     // TODO expand this list: merge all platforms of same stop into one (additional entry), provide that to the user as well
     // TODO between significant stops: <i style="font-style: inherit;color: rgb(96, 96, 96);font-size: 0.8rem;margin: 0.2rem;/* vertical-align: top; *//* padding: 0.2rem; */;">▶</i>
@@ -64,8 +73,8 @@ function getDetails($id, $stopName, $platform) {
 
     foreach ($stops as $stop) {
         if ($id !== NULL && $stop["id"] == $id
-            || $name !== NULL && $platform === NULL && $stop["stop"] == $stopName
-            || $name !== NULL && $platform !== NULL && $stop["stop"] == $stopName && $stop["platform"] == $platform) {
+            || $stopName !== NULL && $platform === NULL && $stop["stop"] == $stopName
+            || $stopName !== NULL && $platform !== NULL && $stop["stop"] == $stopName && $stop["platform"] == $platform) {
             return $stop;
         }
     }
