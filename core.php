@@ -49,6 +49,10 @@ function getStops() {
     return $stops;
 
     // TODO expand this list: merge all platforms of same stop into one (additional entry), provide that to the user as well
+    // would need to merge while parsing stops.json, best with id+id+id+id... and "Alle Steige" as platform
+    // on comparing ids then, would be neat to use set semantics
+    // would need special case in getdepartures function that maps over all platforms, maybe collects errors? or just emits first one i guess; needs to merge departures based on time, needs to somehow display platform name (<s class="platform" style="text-decoration: none;font-size: 0.6rem;text-transform: uppercase;color: gray;">[→ Steig E]</s>) OR – better – extra column? too wide?
+    // no special case needed in getmatches
 }
 
 function expandAbbreviations($html) {
