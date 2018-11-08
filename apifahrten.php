@@ -12,11 +12,11 @@ function renderDefaultsAsHTML() {
         $html .= "<section id='$id'>";
         $html .= "<header onclick='toggle(this)'>";
 
-        $nameAndPlatform = getNameAndPlatform($id);
-        $name = $nameAndPlatform["name"];
-        $platform = $nameAndPlatform["platform"];
+        $details = getDetails($id, NULL, NULL);
+        $stop = $details["stop"];
+        $platform = $details["platform"];
 
-        $html .= "<h1>$name</h1>";
+        $html .= "<h1>$stop</h1>";
         if (!empty($platform)) {
             $html .= " <h2>→ $platform</h2>";
         }
@@ -59,39 +59,14 @@ function condenseTime($time) {
     return ltrim(preg_replace("/(([0-9]) h )?([0-9]+) Min/", "$2:$3", $time), ":");
 }
 
-// function getDetails($id, $name = false, $platform = false) {
-//     $stops = getStops();
-
-//     foreach ($stops as $stop) {
-//         if ($id !== false && $stop["id"] == $id) {
-//             return $stop;
-//         } else if ($name !== false && $platform !== false && $stop["stop"] == $name && $stop["platform"] == $platform) {
-//             return $stop;
-//         } else if ($name !== false && $stop["stop"] == $name) {
-//             return $stop;
-//         }
-//     }
-// }
-
-function getId($name, $platform = "") {
+function getDetails($id, $stopName, $platform) {
     $stops = getStops();
 
     foreach ($stops as $stop) {
-        if ($stop["stop"] == $name && $stop["platform"] == $platform) {
-            return $stop["id"];
-        }
-    }
-}
-
-function getNameAndPlatform($id) {
-    $stops = getStops();
-
-    foreach ($stops as $stop) {
-        if ($stop["id"] == $id) {
-            //if (!empty($stop["platform"])) {
-                return ["name" => $stop["stop"], "platform" => $stop["platform"]];
-            //}
-            //return ["name" => $stop["stop"]];
+        if ($id !== NULL && $stop["id"] == $id
+            || $name !== NULL && $platform === NULL && $stop["stop"] == $stopName
+            || $name !== NULL && $platform !== NULL && $stop["stop"] == $stopName && $stop["platform"] == $platform) {
+            return $stop;
         }
     }
 }
@@ -209,14 +184,14 @@ function handleRequest($request) {
         $id = $request["id"];
         $departures = getDepartures($id);
         return $format("departures", $departures);
-    } else if (!empty($request["name"])) {  // departures for given stop name  // TODO untested
-        $name = $request["name"];
+    } else if (!empty($request["stop"])) {  // departures for given stop name and, if applicable, platform  // TODO untested
+        $stop = $request["stop"];
         if (!empty($request["platform"])) {
-            $id = getId($name, $request["platform"]);
+            $details = getDetails(NULL, $stop, $request["platform"]);
         } else {
-            $id = getId($name);
+            $details = getDetails(NULL, $stop, NULL);
         }
-        $departures = getDepartures($id);
+        $departures = getDepartures($details["id"]);
         return $format("departures", $departures);
     } else if (!empty($request["search"])) {  // stops matching given search string
         $search = $request["search"];

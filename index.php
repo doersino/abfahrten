@@ -222,39 +222,43 @@
     <?php
         include "apifahrten.php";
         echo renderDefaultsAsHTML();
+
+        // php-less (i.e., typical js-based webapp) variant
+        /*
+        <section id="100005">
+            <header onclick="toggle(this)">
+                <h1>Hauptbahnhof</h1>
+                <h2>→ Steig E</h2>
+            </header>
+        </section>
+        <section id="25207">
+            <header onclick="toggle(this)">
+                <h1>Sand Drosselweg</h1>
+            </header>
+            <table></table>
+        </section>
+        <script>
+            get(25207, "25207");
+        </script>
+        <section id="50504">
+            <header onclick="toggle(this)">
+                <h1>Pauline-Krone-Heim</h1>
+                <h2>→ Hauptbahnhof</h2>
+            </header>
+        </section>
+        <section id="50804">
+            <header onclick="toggle(this)">
+                <h1>Stadtgraben</h1>
+            </header>
+        </section>
+        <section id="81004">
+            <header onclick="toggle(this)">
+                <h1>Sternplatz</h1>
+                <h2>→ Hauptbahnhof</h2>
+            </header>
+        </section>
+        */
     ?>
-    <!--<section id="100005">
-        <header onclick="toggle(this)">
-            <h1>Hauptbahnhof</h1>
-            <h2>→ Steig E</h2>
-        </header>
-    </section>
-    <section id="25207">
-        <header onclick="toggle(this)">
-            <h1>Sand Drosselweg</h1>
-        </header>
-        <table></table>
-    </section>
-    <script>
-        get(25207, "25207");
-    </script>
-    <section id="50504">
-        <header onclick="toggle(this)">
-            <h1>Pauline-Krone-Heim</h1>
-            <h2>→ Hauptbahnhof</h2>
-        </header>
-    </section>
-    <section id="50804">
-        <header onclick="toggle(this)">
-            <h1>Stadtgraben</h1>
-        </header>
-    </section>
-    <section id="81004">
-        <header onclick="toggle(this)">
-            <h1>Sternplatz</h1>
-            <h2>→ Hauptbahnhof</h2>
-        </header>
-    </section>-->
 
     <section id="searched"></section>
     <footer>
