@@ -14,6 +14,7 @@
   {"short": "Wennf. G.", "full": "Wennfelder Garten"},
   {"short": "Wennf. Garten", "full": "Wennfelder Garten"},
   {"short": "Schwärzl.Str.", "full": "Schwärzlocher Straße"},
+  {"short": "Schwärzl. Str.", "full": "Schwärzlocher Straße"},
   {"short": "Haagt.", "full": "Haagtor"},
   {"short": "Franz. Viertel", "full": "Französisches Viertel"},
   {"short": "Franz. V.", "full": "Französisches Viertel"},
@@ -24,5 +25,6 @@
   {"short": "Unt. Wert", "full": "Unterer Wert"},
   {"short": "Steinlachw.", "full": "Steinlachwasen"},
   {"short": "Rappenbg.", "full": "Rappenberg"},
-  {"short": "V.d.Kreuzberg", "full": "Vor dem Kreuzberg"}
+  {"short": "V.d.Kreuzberg", "full": "Vor dem Kreuzberg"},
+  {"short": "Rottenb. Bf", "full": "Rottenburg Bahnhof"}
 ]
