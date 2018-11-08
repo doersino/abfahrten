@@ -90,7 +90,7 @@ function getDepartures($id) {
     return array_slice($result, 1);
 }
 
-function encodeAsTable($kind, $data) {
+function encodeAsHTML($kind, $data) {
     $html = "";
 
     if ($kind == "departures") {
@@ -124,6 +124,8 @@ function encodeAsTable($kind, $data) {
         $html .= "</ul>";
     } else if ($kind == "status") {
         $html .= "<p>" . $data["status"] . "</p>";
+    } else {
+        $html .= "<p>HTML output not supported for this type of request.</p>";
     }
 
     return $html;
@@ -133,30 +135,34 @@ function encodeAsJSON($kind, $data) {
     return json_encode($data);
 }
 
-// switch to html output function if desired
-if (!empty($_POST["format"]) && $_POST["format"] == "html") {
-    $format = encodeAsTable;
-} else {
-    $format = encodeAsJSON;
+function handleRequest($request) {
+    // switch to html output function if desired
+    if (!empty($request["format"]) && $request["format"] == "html") {
+        $format = encodeAsHTML;
+    } else {
+        $format = encodeAsJSON;
+    }
+
+    if (!empty($request["id"])) {  // departures for given stop id
+        $id = $request["id"];
+        $departures = getDepartures($id);
+        return $format("departures", $departures);
+    } else if (!empty($request["name"])) {  // departures for given stop name
+        $name = $request["name"];
+        if (!empty($request["platform"])) {
+            $id = getId($name, $request["platform"]);
+        } else {
+            $id = getId($name);
+        }
+        $departures = getDepartures($id);
+        return $format("departures", $departures);
+    } else if (!empty($request["search"])) {  // stops matching given search string
+        $search = $request["search"];
+        $matches = findMatches($search);
+        return $format("search", $matches);
+    } else {  // anything else is invalid
+        return $format("status", ["status" => "Invalid request."]);
+    }
 }
 
-if (!empty($_POST["id"])) {  // departures for given stop id
-    $id = $_POST["id"];
-    $departures = getDepartures($id);
-    echo $format("departures", $departures);
-} else if (!empty($_POST["name"])) {  // departures for given stop name
-    $name = $_POST["name"];
-    if (!empty($_POST["platform"])) {
-        $id = getId($name, $_POST["platform"]);
-    } else {
-        $id = getId($name);
-    }
-    $departures = getDepartures($id);
-    echo $format("departures", $departures);
-} else if (!empty($_POST["search"])) {  // stops matching given search string
-    $search = $_POST["search"];
-    $matches = findMatches($search);
-    echo $format("search", $matches);
-} else {  // anything else is invalid
-    echo $format("status", ["status" => "Invalid request."]);
-}
+echo handleRequest($_POST);
