@@ -144,6 +144,10 @@ function getDepartures($id) {
         $result[] = $resultRow;
     }
 
+    if (empty($result)) {
+        return ["error" => "Zur Zeit keine verfügbaren Abfahrten."];
+    }
+
     // first element empty for whatever reason
     return array_slice($result, 1);
 }
