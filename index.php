@@ -51,6 +51,14 @@
     table td.direction {
         width: 70%;
     }
+    i.and {
+        font-style: inherit;
+        color: #666;
+        font-size: 0.7rem;
+        margin: 0.15rem 0.2rem 0.15rem 0.15rem;  /* keming */
+        vertical-align: top;
+        display: inline-block;
+    }
     table td.time {
         width: 18%;
         text-align: right;
@@ -112,17 +120,22 @@
                 var rows = table.getElementsByTagName("tr");
                 for (row of rows) {
                     var line = row.getElementsByClassName("line")[0];
-                    var direction = row.getElementsByClassName("direction")[0].innerHTML;
+                    var direction = row.getElementsByClassName("direction")[0];
 
                     // set line color
                     line.style.color = "#" + lineColors[parseInt(line.innerHTML) || 0];
 
                     // draw inbound/outbound (rather: downhill/uphill)
                     // indicators
-                    if (["Hbf", "Hauptbahnhof"].some(d => direction.indexOf(d) >= 0)) {
+                    if (["Hbf", "Hauptbahnhof"].some(d => direction.innerHTML.indexOf(d) >= 0)) {
                         line.innerHTML = line.innerHTML + "<sup>↓</sup>";
-                    } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.indexOf(d) >= 0)) {
+                    } else if (["Kliniken", "Wanne", "WHO", "Pfrondorf"].some(d => direction.innerHTML.indexOf(d) >= 0)) {
                         line.innerHTML = line.innerHTML + "<sup>↑</sup>";
+                    }
+
+                    // replace "-" with "▶" in some places
+                    if (["Hbf-", "Wanne-", "WHO-", "Sand-", "Schönblick-", "Sternwarte-", "Haußerstraße-", "Kliniken-", "Lustnau Nord-", "Weststadt-", "Haagtor-", "Schwärzlocher Straße-"].some(d => direction.innerHTML.startsWith(d))) {
+                        direction.innerHTML = direction.innerHTML.replace(/-/, "<i class='and'>▶</i>");
                     }
 
                     // highlight imminent departures

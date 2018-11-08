@@ -49,7 +49,6 @@ function getStops() {
     return $stops;
 
     // TODO expand this list: merge all platforms of same stop into one (additional entry), provide that to the user as well
-    // TODO between significant stops: <i style="font-style: inherit;color: rgb(96, 96, 96);font-size: 0.8rem;margin: 0.2rem;/* vertical-align: top; *//* padding: 0.2rem; */;">▶</i>
 }
 
 function expandAbbreviations($html) {
