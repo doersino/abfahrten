@@ -220,7 +220,7 @@
 </head>
 <body>
     <?php
-        include "apifahrten.php";
+        require_once("core.php");
         echo renderDefaultsAsHTML();
 
         // php-less (i.e., typical js-based webapp) variant
