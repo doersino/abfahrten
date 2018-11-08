@@ -55,7 +55,7 @@
         font-style: inherit;
         color: #666;
         font-size: 0.7rem;
-        margin: 0.15rem 0.2rem 0.15rem 0.15rem;  /* keming */
+        margin: 0.15rem 0.18rem 0.15rem 0.2rem;  /* keming */
         vertical-align: top;
         display: inline-block;
     }
