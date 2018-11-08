@@ -96,7 +96,12 @@ function getDepartures($id) {
 
     // spoof user agent to evade bot detection (probably won't matter, but can't
     // hurt to be safe)
-    $options = array("http" => array("user_agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15"));
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        $ua = $_SERVER['HTTP_USER_AGENT'];
+    } else {
+        $ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15";
+    }
+    $options = array("http" => array("user_agent" => $ua));
     $context = stream_context_create($options);
 
     // get source abfahrt.html for relevant halt
