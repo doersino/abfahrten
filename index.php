@@ -103,8 +103,38 @@
         position: relative;
         left: -0.1rem;
     }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .spinner {
+        border: 0.2rem solid white;
+        border-top: 0.2rem solid black;
+        border-radius: 50%;
+        width: 1rem;
+        height: 1rem;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        float: right;
+        margin: 0.5rem;
+    }
+    footer .spinner {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+    }
     </style>
     <script>
+        function showSpinner(elem, id) {
+            var spinner = document.createElement("div");
+            spinner.classList.add("spinner");
+            spinner.id = id;
+            elem.insertBefore(spinner, elem.children[0]);
+        }
+        function hideSpinner(id) {
+            document.getElementById(id).remove();
+        }
         function prettify(targetSectionId) {
             var lineColors = ["000000","e00a1e","18a199","d85f1c","8fc79a","640c32","c89c6a","6e92c5","6e92c5","6eb5b7","deda2f","2172b6","db6da5","518095","085267","f09fc4","95bf30","a41c7f","a69dcb","642780","000000","1a9fe0","96ad9a","07488c"];  // taken from official line plan
             var timeColors = ["000", "222", "444", "666", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888", "888"];
@@ -165,9 +195,12 @@
             api.send(request);
         }
         function get(id, targetSectionId) {
-            apifahrten("format=html&id=" + id, function(response) {
-                var departures = response;
-                var target = document.getElementById(targetSectionId);
+            var target = document.getElementById(targetSectionId);
+
+            // spawn spinner
+            showSpinner(target, targetSectionId + "spin");
+
+            apifahrten("format=html&id=" + id, function(departures) {
 
                 // replace the old table with the new one, which is just a
                 // string, necessitating the creation of a temporary helper div
@@ -179,17 +212,25 @@
                 // add some color, direction markers (uphill or downhill) and
                 // highlight imminent departures
                 prettify(targetSectionId);
+
+                // kill spinner
+                hideSpinner(targetSectionId + "spin");
             });
         }
         function search() {
             var searchString = document.getElementById("searchy").value;
 
-            apifahrten("format=html&search=" + encodeURIComponent(searchString), function(response) {
-                var matches = response;
+            // spawn spinner
+            showSpinner(document.getElementById("searchy").parentNode, "searchyspin");
+
+            apifahrten("format=html&search=" + encodeURIComponent(searchString), function(matches) {
 
                 // display search results
                 var results = document.getElementById("results");
                 results.innerHTML = matches;
+
+                // kill spinner
+                hideSpinner("searchyspin");
 
                 // if one of them is clicked, load its upcoming departures
                 lis = document.getElementsByTagName("li");
