@@ -117,6 +117,7 @@
         display: inline-block;
         float: right;
         margin: 0.5rem;
+        pointer-events: none;
     }
     footer .spinner {
         position: fixed;
