@@ -1,16 +1,15 @@
 # abfahrten
 
-Ein besseres¹ Interface zum Online-Abfahrtsmonitor der Stadtwerke Tübingen. Aktuell stark auf meine eigenen Bedürfnisse abgestimmt.
+<img align="left" width="100" src="demo.png">
+<!-- https://dribbble.com/shots/3516645-Free-iPhone-7-iPhone-7-Plus-Mockup -->
 
+Ein besseres¹ Interface zum Online-Abfahrtsmonitor der Stadtwerke Tübingen, das auch im lückenhaften O₂-Netz verlässlich² lädt. Aktuell stark auf meine eigenen Bedürfnisse³ abgestimmt. Da für jeden Aufruf eine entsprechende Anfrage an den offiziellen Abfahrtsmonitor abgefeuert wird, ist diese Software nicht für den öffentlichen Einsatz gedacht – die Stadtwerke würden das vermutlich nach einer Weile blockieren. Aus diesem Grund gibt es auch keine Demo.
 
-## Systemvoraussetzungen
-
-Ein PHP-fähiger Webserver. Handelübliche Sharehosting-Angebote sollten wohl funktionieren?
 
 
 ## Installation
 
-Inhalt dieses Repositories in `public_html` oder so des obigen Webservers schieben.
+Inhalt dieses Repositories ins `public_html`-Verzeichnis eines PHP-fähigen Webservers schieben. Fertig. Handelsübliche Sharehosting-Angebote sollten wohl funktionieren.
 
 
 ## Konfiguration
@@ -20,9 +19,11 @@ Inhalt dieses Repositories in `public_html` oder so des obigen Webservers schieb
 
 ## Wartung
 
-Wenn die Stadtwerke Haltestellen hinzufügen oder entfernen, `stops.json` entsprechend neu kopieren aus dem gegen Ende des Quellcodes von `https://www.swtue.de/abfahrt.html` verlinkten Skript.
+Falls Haltestellen hinzukommen oder entfernt werden, muss `stops.json` entsprechend neu aus der gegen Ende des Quellcodes von `https://www.swtue.de/abfahrt.html` eingebetteten JavaScript-Datei herauskopiert werden.
 
 
 ---
 
 ¹ Finde ich. Deine Kilometerleistung kann variieren.
+² Ein einziger HTTP-Request ist nötig, um die Standardansicht mit allen Haltestellen, die in `defaults.json` als `"expand": true` markiert sind, zu laden.
+³ Deswegen ist `defaults.json` nicht in der `.gitignore`.
