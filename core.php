@@ -1,5 +1,14 @@
 <?php
 
+function logError($msg, $details = NULL) {
+    $err = date("r") . ": " . $msg;
+    if ($details !== NULL) {
+        $err .= " [" . $details . "]";
+    }
+    file_put_contents("errors.log", $err . "\n", FILE_APPEND | LOCK_EX);
+    return $msg;
+}
+
 function renderDefaultsAsHTML() {
     $defaults = json_decode(file_get_contents("defaults.json"), true);
 
@@ -113,13 +122,16 @@ function getDepartures($id) {
     // error handling
     if (!$html) {
         $error = error_get_last();
-        return ["error" => "Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\")."];
+        return ["error" => logError("Fehler: Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\").", json_encode(getDetails($id)))];
     }
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
-        return ["error" => "Diese Haltestelle wird momentan nicht bedient."];
+        return ["error" => logError("Diese Haltestelle wird momentan nicht bedient.", json_encode(getDetails($id)))];
+    }
+    if (strpos($html, "Die angegebene Haltestelle konnte nicht gefunden werden.") !== false) {
+        return ["error" => logError("Die angegebene Haltestelle konnte nicht gefunden werden.", json_encode(getDetails($id)))];
     }
     if (strpos($html, "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.") !== false) {
-        return ["error" => "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden."];
+        return ["error" => logError("Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.", json_encode(getDetails($id)))];
     }
 
     $html = expandAbbreviations($html);
@@ -148,7 +160,7 @@ function getDepartures($id) {
     }
 
     if (empty($result)) {
-        return ["error" => "Zur Zeit keine verfügbaren Abfahrten."];
+        return ["error" => logError("Fehler: Zur Zeit keine verfügbaren Abfahrten.", json_encode(getDetails($id)))];
     }
 
     // first element empty for whatever reason
