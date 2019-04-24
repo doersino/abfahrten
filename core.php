@@ -45,6 +45,7 @@ function renderDefaultsAsHTML() {
 }
 
 function getStops() {
+    // TODO remove commented-out lines before json parsing, i.e. lines whose first non-whitespace characters are "//"
     $stops = json_decode(file_get_contents("stops.json"), true);
 
     // remove non-English "t" from "plattform"
