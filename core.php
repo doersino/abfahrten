@@ -122,7 +122,7 @@ function getDepartures($id) {
 
     // error handling
     if (!$html) {
-        $error = error_get_last();
+        $error = json_encode(error_get_last());
         return ["error" => logError("Fehler: Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\").", json_encode(getDetails($id)))];
     }
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
