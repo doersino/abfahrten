@@ -250,25 +250,25 @@
                 lis = document.getElementsByTagName("li");
                 for (li of lis) li.onclick = function() {
 
-                        // hide search results
-                        results.innerHTML = "";
+                    // hide search results
+                    results.innerHTML = "";
 
-                        // grab target section
-                        var searched = document.getElementById("searched");
+                    // grab target section
+                    var searched = document.getElementById("searched");
 
-                        // clean up from potential earlier searches
-                        searched.innerHTML = "";
+                    // clean up from potential earlier searches
+                    searched.innerHTML = "";
 
-                        // construct header and an empty table, later to be
-                        // replaced by get()
-                        var header = document.createElement("header");
-                        header.setAttribute("onclick", "this.parentNode.innerHTML = ''");
-                        header.innerHTML = (this.innerHTML);
-                        searched.appendChild(header);
-                        var table = document.createElement("table");
-                        searched.appendChild(table);
+                    // construct header and an empty table, later to be
+                    // replaced by get()
+                    var header = document.createElement("header");
+                    header.setAttribute("onclick", "this.parentNode.innerHTML = ''");
+                    header.innerHTML = (this.innerHTML);
+                    searched.appendChild(header);
+                    var table = document.createElement("table");
+                    searched.appendChild(table);
 
-                        get(this.id, "searched");
+                    get(this.id, "searched");
                 };
             }, "searchy", document.getElementById("searchy").parentNode);
         }
