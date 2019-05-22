@@ -182,24 +182,46 @@
                 }
             }
         }
-        function apifahrten(request, onCompletion) {  // request parameters and a function dealing with response text
-            var api = new XMLHttpRequest();
+        var pendingRequests = {};
+        function addPendingRequest(xhr, id, spinnerParent) {
+            pendingRequests[id] = xhr;
+            showSpinner(spinnerParent, id + "spin");
+        }
+        function removePendingRequest(id) {
+            if (id in pendingRequests) {
+                pendingRequests[id].abort();
+                delete pendingRequests[id];
+                hideSpinner(id + "spin");
+            }
+        }
+        function apifahrten(
+                request,       // request parameters
+                onCompletion,  // function dealing with response text
+                id,            // any pending requests with this id will be aborted
+                spinnerParent  // element into which a loading spinner should be inserted
+            ) {
 
-            api.onreadystatechange = function() {
-                if (api.readyState == 4 && api.status == 200) {
-                    onCompletion(api.responseText);
+            // abort any pending requests with same id and hide corresponding spinner
+            removePendingRequest(id);
+
+            var xhr = new XMLHttpRequest();
+            addPendingRequest(xhr, id, spinnerParent);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    onCompletion(xhr.responseText);
+
+                    // this request ain't pending no more
+                    removePendingRequest(id);
                 }
             }
 
-            api.open("POST", "apifahrten.php", true);
-            api.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-            api.send(request);
+            xhr.open("POST", "apifahrten.php", true);
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xhr.send(request);
         }
         function get(id, targetSectionId) {
             var target = document.getElementById(targetSectionId);
-
-            // spawn spinner
-            showSpinner(target, targetSectionId + "spin");
 
             apifahrten("format=html&id=" + id, function(departures) {
 
@@ -213,25 +235,16 @@
                 // add some color, direction markers (uphill or downhill) and
                 // highlight imminent departures
                 prettify(targetSectionId);
-
-                // kill spinner
-                hideSpinner(targetSectionId + "spin");
-            });
+            }, "get" + id, target);
         }
         function search() {
             var searchString = document.getElementById("searchy").value;
-
-            // spawn spinner
-            showSpinner(document.getElementById("searchy").parentNode, "searchyspin");
 
             apifahrten("format=html&search=" + encodeURIComponent(searchString), function(matches) {
 
                 // display search results
                 var results = document.getElementById("results");
                 results.innerHTML = matches;
-
-                // kill spinner
-                hideSpinner("searchyspin");
 
                 // if one of them is clicked, load its upcoming departures
                 lis = document.getElementsByTagName("li");
@@ -257,7 +270,7 @@
 
                         get(this.id, "searched");
                 };
-            });
+            }, "searchy", document.getElementById("searchy").parentNode);
         }
         function toggle(header) {
             var section = header.parentNode;
@@ -269,6 +282,9 @@
                 section.scrollIntoView();
             } else {
                 tables[0].parentNode.removeChild(tables[0]);
+
+                // cancel any possibly pending requests
+                removePendingRequest("get" + section.id);
             }
         }
     </script>
