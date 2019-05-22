@@ -17,6 +17,7 @@ function renderDefaultsAsHTML() {
     foreach ($defaults as $default) {
         $id = $default["id"];
         $expand = $default["expand"];
+        $emoji = $default["emoji"];
 
         $html .= "<section id='$id'>";
         $html .= "<header onclick='toggle(this)'>";
@@ -25,7 +26,11 @@ function renderDefaultsAsHTML() {
         $stop = $details["stop"];
         $platform = $details["platform"];
 
-        $html .= "<h1>$stop</h1>";
+        $html .= "<h1>$stop";
+        if (isset($emoji)){
+            $html .= " $emoji";
+        }
+        $html .= "</h1>";
         if (!empty($platform)) {
             $html .= " <h2>→ $platform</h2>";
         }
