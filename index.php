@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="apple-touch-icon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
     <title>Abfahrten</title>
     <style>
     * {
