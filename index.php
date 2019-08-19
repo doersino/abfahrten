@@ -16,6 +16,16 @@
     html {
         font-size: 20px;
     }
+    @media (min-width: 600px) {
+        html {
+            font-size: 24px;
+        }
+    }
+    @media (min-width: 900px) {
+        html {
+            font-size: 28px;
+        }
+    }
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         padding-bottom: 2rem;
