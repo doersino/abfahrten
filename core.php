@@ -17,7 +17,10 @@ function renderDefaultsAsHTML() {
     foreach ($defaults as $default) {
         $id = $default["id"];
         $expand = $default["expand"];
-        $emoji = $default["emoji"];
+        $emoji = NULL;
+        if (isset($default["emoji"])) {
+            $emoji = $default["emoji"];
+        }
 
         $html .= "<section id='$id'>";
         $html .= "<header onclick='toggle(this)'>";
@@ -128,16 +131,16 @@ function getDepartures($id) {
     // error handling
     if (!$html) {
         $error = json_encode(error_get_last());
-        return ["error" => logError("Fehler: Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\").", json_encode(getDetails($id)))];
+        return ["error" => logError("Fehler: Beim Abruf der Abfahrten ist ein Fehler aufgetreten (\"" . $error . "\").", json_encode(getDetails($id, NULL, NULL)))];
     }
     if (strpos($html, "Diese Haltestelle wird momentan nicht bedient.") !== false) {
-        return ["error" => logError("Diese Haltestelle wird momentan nicht bedient.", json_encode(getDetails($id)))];
+        return ["error" => logError("Diese Haltestelle wird momentan nicht bedient.", json_encode(getDetails($id, NULL, NULL)))];
     }
     if (strpos($html, "Die angegebene Haltestelle konnte nicht gefunden werden.") !== false) {
-        return ["error" => logError("Die angegebene Haltestelle konnte nicht gefunden werden.", json_encode(getDetails($id)))];
+        return ["error" => logError("Die angegebene Haltestelle konnte nicht gefunden werden.", json_encode(getDetails($id, NULL, NULL)))];
     }
     if (strpos($html, "Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.") !== false) {
-        return ["error" => logError("Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.", json_encode(getDetails($id)))];
+        return ["error" => logError("Ihre Anfrage kann zur Zeit leider nicht bearbeitet werden.", json_encode(getDetails($id, NULL, NULL)))];
     }
 
     $html = expandAbbreviations($html);
@@ -166,7 +169,7 @@ function getDepartures($id) {
     }
 
     if (empty($result)) {
-        return ["error" => logError("Fehler: Zur Zeit keine verfügbaren Abfahrten.", json_encode(getDetails($id)))];
+        return ["error" => logError("Fehler: Zur Zeit keine verfügbaren Abfahrten.", json_encode(getDetails($id, NULL, NULL)))];
     }
 
     // first element empty for whatever reason
