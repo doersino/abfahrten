@@ -1,9 +1,6 @@
 [
-    {"id": "100005", "expand": false},
-    {"id": "25204", "expand": true},
-    {"id": "50504", "expand": false},
-    {"id": "50804", "expand": false},
+    {"id": "100008", "expand": true},
+    {"id": "81304", "expand": true},
     {"id": "81004", "expand": false},
-    {"id": "20501", "expand": false, "emoji": "🌿"},
-    {"id": "20405", "expand": false}
+    {"id": "20504", "expand": false, "emoji": "🌿"},
 ]

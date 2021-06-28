@@ -110,9 +110,8 @@
     }
     sup {
         vertical-align: top;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         position: relative;
-        left: -0.1rem;
     }
     @keyframes spin {
         0% { transform: rotate(0deg); }
