@@ -5,15 +5,15 @@ require_once("core.php");
 function handleRequest($request) {
     // switch to html output function if desired
     if (isset($request["format"]) && $request["format"] == "html") {
-        $format = encodeAsHTML;
+        $format = 'encodeAsHTML';
     } else {
-        $format = encodeAsJSON;
+        $format = 'encodeAsJSON';
     }
 
     if (isset($request["id"])) {  // departures for given stop id
         $id = $request["id"];
         $departures = getDepartures($id);
-        return $format("departures", $departures);
+        return call_user_func($format, "departures", $departures);
     } else if (isset($request["stop"])) {  // departures for given stop name and, if applicable, platform  // TODO untested
         $stop = $request["stop"];
         if (isset($request["platform"])) {
@@ -22,13 +22,13 @@ function handleRequest($request) {
             $details = getDetails(NULL, $stop, NULL);
         }
         $departures = getDepartures($details["id"]);
-        return $format("departures", $departures);
+        return call_user_func($format, "departures", $departures);
     } else if (isset($request["search"])) {  // stops matching given search string
         $search = $request["search"];
         $matches = findMatches($search);
-        return $format("search", $matches);
+        return call_user_func($format, "search", $matches);
     } else {  // anything else is invalid
-        return $format("status", ["status" => "Invalid request."]);
+        return call_user_func($format, "status", ["status" => "Invalid request."]);
     }
 }
 
