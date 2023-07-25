@@ -64,6 +64,12 @@ function getStops() {
         $stops[$i] = $stop;
     }
 
+    // set id := newid
+    foreach ($stops as $i => $stop) {
+        $stop["id"] = $stop["newid"];
+        $stops[$i] = $stop;
+    }
+
     return $stops;
 
     // TODO expand this list: merge all platforms of same stop into one (additional entry), provide that to the user as well

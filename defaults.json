@@ -1,6 +1,6 @@
 [
-    {"id": "100008", "expand": true},
-    {"id": "81304", "expand": true},
-    {"id": "81004", "expand": false},
-    {"id": "20504", "expand": false, "emoji": "🌿"}
+    {"id": "de:08416:11000:1:H", "expand": true},
+    {"id": "de:08416:10813:0:4", "expand": true},
+    {"id": "de:08416:10810:0:4", "expand": false},
+    {"id": "de:08416:10205:0:4", "expand": false, "emoji": "🌿"}
 ]
