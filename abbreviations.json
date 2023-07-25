@@ -17,6 +17,7 @@
   {"short": "Schwärzl.Str.", "full": "Schwärzlocher Straße"},
   {"short": "Schwärzl. Str.", "full": "Schwärzlocher Straße"},
   {"short": "Haagt.", "full": "Haagtor"},
+  {"short": "Franz.Viertel", "full": "Französisches Viertel"},
   {"short": "Franz. Viertel", "full": "Französisches Viertel"},
   {"short": "Franz. V.", "full": "Französisches Viertel"},
   {"short": "Franz.-Viertel", "full": "Französisches Viertel"},
@@ -33,5 +34,6 @@
   {"short": "WHO Fichtenw.", "full": "WHO Fichtenweg"},
   {"short": "Derend.", "full": "Derendingen"},
   {"short": "Aixer Str.", "full": "Aixer Straße"},
-  {"short": "Rottenburg E.-Bolz-Platz", "full": "Rottenburg Eugen-Bolz-Platz"}
+  {"short": "Rottenburg E.-Bolz-Platz", "full": "Rottenburg Eugen-Bolz-Platz"},
+  {"short": "Westbhf-L12", "full": "Westbahnhof-L12"}
 ]
