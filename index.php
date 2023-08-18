@@ -52,6 +52,9 @@
     table:not(:empty) {
         padding: 0.5rem;
     }
+    table tr:empty {
+        display: none;
+    }
     table tr:not(:last-child) td {
         padding-bottom: 0.2rem;
     }
@@ -162,6 +165,13 @@
                 for (row of rows) {
                     var line = row.getElementsByClassName("line")[0];
                     var direction = row.getElementsByClassName("direction")[0];
+
+                    // starting in august 2023, sometimes empty rows are
+                    // generated – so just jump to the next row if the current
+                    // one's empty
+                    if (!line) {
+                        continue;
+                    }
 
                     // set line color
                     line.style.color = "#" + lineColors[parseInt(line.innerHTML) || 0];
