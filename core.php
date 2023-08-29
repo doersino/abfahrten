@@ -29,14 +29,15 @@ function renderDefaultsAsHTML() {
         $stop = $details["stop"];
         $platform = $details["platform"];
 
-        $html .= "<h1>$stop";
+        $html .= "<h1>";
         if (isset($emoji)){
-            $html .= " $emoji";
+            $html .= "$emoji ";
         }
-        $html .= "</h1>";
+        $html .= "$stop</h1>";
         if (!empty($platform)) {
             $html .= " <h2>→ $platform</h2>";
         }
+        //$html .= "<i>$id</i>";
 
         $html .= "</header>";
 
