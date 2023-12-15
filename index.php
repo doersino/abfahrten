@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="apple-touch-icon.png">
     <?php
-        if (isset($alternateHomescreenIcon)) {
-            echo '<link rel="apple-touch-icon" href="' . $alternateHomescreenIcon . '">';
+        if (isset($hiddenHomescreenIcon)) {
+            echo '<link rel="apple-touch-icon" href="' . $hiddenHomescreenIcon . '">';
+            echo '<title>&#8290;</title>';
         } else {
             echo '<link rel="apple-touch-icon" href="apple-touch-icon.png">';
+            echo '<title>Abfahrten</title>'
         }
     ?>
-    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
-    <title>Abfahrten</title>
     <style>
     * {
         margin: 0;
