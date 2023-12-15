@@ -10,7 +10,7 @@
             echo '<title>&#8290;</title>';
         } else {
             echo '<link rel="apple-touch-icon" href="apple-touch-icon.png">';
-            echo '<title>Abfahrten</title>'
+            echo '<title>Abfahrten</title>';
         }
     ?>
     <style>
