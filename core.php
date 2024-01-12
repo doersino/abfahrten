@@ -194,9 +194,14 @@ function encodeAsHTML($kind, $data) {
         } else {
             $html .= "<table>";
             foreach ($departures as $row) {
-                $html .= "<tr>";
+                if (str_contains($row['direction'], "FAHRTAUSFALL!")) {
+                    $html .= "<tr class='annulled'>";
+                } else {
+                    $html .= "<tr>";
+                }
                 foreach ($row as $colLabel => $col) {
-                    $html .= "<td class='$colLabel'>$col</td>";
+                    $colFixed = str_replace("FAHRTAUSFALL!", "", $col);
+                    $html .= "<td class='$colLabel'>$colFixed</td>";
                 }
                 $html .= "</tr>";
             }

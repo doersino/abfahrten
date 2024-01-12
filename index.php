@@ -64,6 +64,12 @@
     table tr:not(:last-child) td {
         padding-bottom: 0.2rem;
     }
+    table tr.annulled {
+        text-decoration: line-through;
+        text-decoration-color: red;
+        color: #f88 !important;
+        box-shadow: 0 0 0 red;
+    }
     table td.line {
         width: 12%;
         font-style: italic;
