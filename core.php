@@ -37,7 +37,7 @@ function renderDefaultsAsHTML() {
         if (!empty($platform)) {
             $html .= " <h2>→ $platform</h2>";
         }
-        //$html .= "<i>$id</i>";
+        $html .= "<h3 class='id'>$id</h3>";
 
         $html .= "</header>";
 
@@ -217,6 +217,7 @@ function encodeAsHTML($kind, $data) {
             if (!empty($match["platform"])) {
                 $html .= " <h2 class='platform'>→ " . $match["platform"] . "</h2>";
             }
+            $html .= "<h3 class='id'>" . $match["id"] . "</h3>";
             $html .= "</li>";
         }
         $html .= "</ul>";

@@ -52,6 +52,18 @@
         font-size: 1em;
         display: inline-block;
     }
+    h3 {
+        /*transform: scaleY(0.75);*/
+        font-style: italic;
+        font-size: 0.75em;
+        font-weight: 400;
+        color: #aaa;
+        margin-top: 0.2em;
+        display: none;
+    }
+    #searched h3 {
+        display: block;
+    }
     table {
         width: 100%;
     }
