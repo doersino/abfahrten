@@ -2064,14 +2064,14 @@
     "validfrom": "0",
     "validtil": "16756675200"
 }, {
-    "stop": "Ã–sterbergstraße",
-    "plattform": "Ã–sterberg",
+    "stop": "Österbergstraße",
+    "plattform": "Österberg",
     "id": "60001",
     "newid": "de:08416:10600:0:1",
     "validfrom": "0",
     "validtil": "16756675200"
 }, {
-    "stop": "Ã–sterbergstraße",
+    "stop": "Österbergstraße",
     "plattform": "Hauptbahnhof",
     "id": "60004",
     "newid": "de:08416:10600:0:4",
@@ -2079,7 +2079,7 @@
     "validtil": "16756675200"
 }, {
     "stop": "Wielandshöhe",
-    "plattform": "Ã–sterberg",
+    "plattform": "Österberg",
     "id": "60101",
     "newid": "de:08416:10601:0:1",
     "validfrom": "0",
@@ -2135,7 +2135,7 @@
     "validtil": "16756675200"
 }, {
     "stop": "Doblerstraße",
-    "plattform": "Ã–sterberg",
+    "plattform": "Österberg",
     "id": "60801",
     "newid": "de:08416:10608:0:1",
     "validfrom": "0",

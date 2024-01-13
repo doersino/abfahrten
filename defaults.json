@@ -1,7 +1,8 @@
 [
+    {"id": "de:08416:3250:0:2", "expand": true, "emoji": "🪦"},
     {"id": "de:08416:11000:12:F", "expand": true, "emoji": "🚏"},
     {"id": "de:08416:10813:0:4", "expand": true, "emoji": "🏭"},
-    {"id": "de:08416:11000", "expand": true, "emoji": "🚂"},
+    {"id": "de:08416:11000", "expand": false, "emoji": "🚂"},
     {"id": "de:08416:10810:0:4", "expand": false, "emoji": "💫"},
     {"id": "de:08416:10205:0:4", "expand": false, "emoji": "🌿"}
 ]
