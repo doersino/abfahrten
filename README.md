@@ -7,6 +7,7 @@ Ein besseres¹ Interface zum [Online-Abfahrtsmonitor der Stadtwerke Tübingen](h
 
 Da für jeden Aufruf eine entsprechende Anfrage an den offiziellen Abfahrtsmonitor abgefeuert wird, ist diese Software nicht für den öffentlichen Einsatz gedacht – die Stadtwerke würden das vermutlich nach einer Weile blockieren. Aus diesem Grund gibt es an dieser Stelle auch keinen Demo-Link.
 
+*Momentan defekt (April 2024) – nicht ganz trivial zu reparieren.*
 
 
 ## Installation
